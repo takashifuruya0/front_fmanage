@@ -10,6 +10,7 @@
           <th>Name</th>
           <th>Status</th>
           <th>Value</th>
+          <th>Detail</th>
         </tr>
       </thead>
       <tbody>
@@ -20,7 +21,10 @@
           <td>{{opp.id}}</td>
           <td>{{opp.name}}</td>
           <td>{{opp.status}}</td>
-          <td>{{opp.val | numberFormat}}</td>
+          <td>{{opp.val}}</td>
+          <td>
+            <v-btn color="primary">Detail</v-btn>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -35,14 +39,15 @@ import { Options, Vue} from 'vue-class-component';
 
 @Options({
   props: {
-    msg: String
+    msg: String,
   },
   components:{
   }
 })
 
 export default class OpportunityList extends Vue {
-  msg?: string
+  msg?: string;
+
   opportunities = []
   
   mounted () {
@@ -55,11 +60,18 @@ export default class OpportunityList extends Vue {
       }
     })
     .then(response => {
+      for (const i in response.data.results){
+        response.data.results[i].val = this.numberFormat(response.data.results[i].val)
+      }
       this.opportunities = response.data.results;
     })
     .catch(e => {
       window.alert(e);
     })
+  }
+
+  numberFormat = (value: number)  => {
+    return `¥${value.toLocaleString()}`;
   }
 }
 </script>
