@@ -1,63 +1,5 @@
 <template>
-  <section :class="$style.wrapper">
-    <header :class="$style.header">
-      <div :class="$style.left">
-        <product-label :typeName="product.typeName" />
-        <h1>{{ product.name }}</h1>
-        <div :class="$style.imgBlock">
-          <img :src="product.image01" width="100%">
-        </div>
-      </div>
-      <div :class="$style.right">
-        <div :class="$style.dataBlock">
-          <h2>基本情報</h2>
-          <dl :class="$style.basicData">
-            <dt>メーカー</dt>
-            <dd>{{ product.manufacturer }}</dd>
-            <dt>型式／型番</dt>
-            <dd>{{ product.modelType }}</dd>
-            <dt>年式</dt>
-            <dd>{{ product.modelYear }}</dd>
-            <dt>機械所在地</dt>
-            <dd>{{ product.area }}</dd>
-          </dl>
-          <h2>仕様</h2>
-          <ul :class="$style.specifications">
-            <li v-for="(value, index) in product.specifications" :key="index">
-              {{ value }}
-            </li>
-          </ul>
-          <div :class="$style.dataFooter">
-            <div :class="$style.amount">
-              <b>希望販売金額</b>
-              <span>{{ product.amount | numberFormat }}</span>
-            </div>
-            <div :class="$style.btnGroup">
-              <div v-if="this.$store.state.favorites.indexOf(product.id) > -1">
-                <v-btn large width="160" v-on:click="remove_favorite(product.id)">
-                  <v-icon color="orange" small>
-                    mdi-star-check
-                  </v-icon>
-                  追加済み
-                </v-btn>
-              </div>
-              <div v-else>
-                <v-btn large width="160" v-on:click="add_favorite(product.id)">
-                  <v-icon dark small>
-                    mdi-star
-                  </v-icon>
-                  気になる
-                </v-btn>
-              </div>
-              <v-btn dark large color="red" width="160">
-                問い合せ
-              </v-btn>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-  </section>
+  
 </template>
 
 <script lang="ts">
@@ -66,25 +8,12 @@ import { Options, Vue } from 'vue-class-component';
 // import ProductLabel from "../components/ProductLabel.vue";
 
 @Options({
-  filters: {
-    numberFormat: function(value: number) {
-      return `¥${value.toLocaleString()}`;
-    }
-  }
+
 })
 
 export default class OpportunityDetail extends Vue {
   
-  ,
-  methods: {
-    add_favorite:function(id:number) {
-      this.$store.commit("addFavorites", id)
-    },
-    remove_favorite:function(id:number) {
-      this.$store.commit("removeFavorites", id)
-    }
-  }
-});
+}
 </script>
 
 <style lang="scss" module>

@@ -1,17 +1,13 @@
 <template>
-  <div class="home">
+  <div class="sub-busines">
+    <h1>Sub Business</h1>
     <img alt="Menta logo" src="@/assets/menta.png">
-    <img alt="Vue logo" src="../assets/log.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-    <hr>
-    <!-- <HelloWorld msg="Again"/> -->
-    <!-- <OpportunityList msg="OpportunityList"/> -->
+    <opportunity-list />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-// import {Component, Vue} from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import OpportunityList from '@/components/OpportunityList.vue'
 import component from '*.vue';
@@ -22,7 +18,7 @@ import component from '*.vue';
     OpportunityList,
   },
 })
-// @Component({})
-export default class Home extends Vue {
+export default class SubBusiness extends Vue{
+  
 }
 </script>
