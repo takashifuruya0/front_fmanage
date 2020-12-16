@@ -28,7 +28,7 @@
           <td>{{opp.id}}</td>
           <td>{{opp.name}}</td>
           <td>
-            <label class="badge bg-info">
+            <label :class="label_status(opp.status)">
             {{opp.status}}
             </label>
           </td>
@@ -67,6 +67,7 @@ export default class OpportunityList extends Vue {
   previous?: URL;
   offset?: number
 
+  base_url = ""
   opportunities = []
   
   mounted () {
@@ -75,32 +76,8 @@ export default class OpportunityList extends Vue {
     } else {
       this.offset = 0;
     }
-    this.current = new URL(`http://127.0.0.1:8000/drm/lancers/opportunity/?limit=20&offset=${this.offset}`)
+    this.current = new URL(`${this.base_url}/drm/lancers/opportunity/?limit=20&offset=${this.offset}`)
     this.move(this.current)  
-    // this.axios({
-    //   method: "get",
-    //   // url: "https://www.machinemart.store/api/item/",
-    //   url: `http://127.0.0.1:8000/drm/lancers/opportunity/?limit=20&offset=${this.offset}`,
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // })
-    // .then(response => {
-    //   this.current = new URL(`http://127.0.0.1:8000/drm/lancers/opportunity/?limit=20&offset=${this.offset}`);
-    //   if (response.data.next != null ) {
-    //     this.next = response.data.next;
-    //   }
-    //   if (response.data.previous != null ) {
-    //     this.previous = response.data.previous;
-    //   }
-    //   // for (const i in response.data.results){
-    //   //   response.data.results[i].val = this.numberFormat(response.data.results[i].val)
-    //   // }
-    //   this.opportunities = response.data.results;
-    // })
-    // .catch(e => {
-    //   window.alert(e);
-    // })
   }
 
   numberFormat = (value: number)  => {
@@ -129,6 +106,22 @@ export default class OpportunityList extends Vue {
     .catch(e => {
       window.alert(e);
     })
+  }
+
+  label_status(status: string){
+    let color;
+    if (status == "選定/終了"){
+      color = "success"
+    } else if (status == "選定/作業中"){
+      color = "primary"
+    } else if (status == "キャンセル"){
+      color = "warning"
+    } else if (status == "落選"){
+      color = "secondary"
+    } else {
+      color = "info"
+    }
+    return `badge bg-${color}`
   }
 }
 
