@@ -1,7 +1,11 @@
 <template>
   <div class="sub-busines">
-    <h1>Sub Business</h1>
-    <img alt="Menta logo" src="@/assets/menta.png">
+    <!-- <my-nav-bar/> -->
+    <h1>
+      <img alt="Menta logo" src="@/assets/menta.png" width=100>
+      Sub Business
+    </h1>
+    
     <opportunity-list />
   </div>
 </template>
@@ -9,13 +13,15 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-import OpportunityList from '@/components/OpportunityList.vue'
+import OpportunityList from '@/components/OpportunityList.vue';
+import MyNavBar from '@/components/MyNavBar.vue';
 import component from '*.vue';
 
 @Options({
   components: {
     HelloWorld,
     OpportunityList,
+    MyNavBar
   },
 })
 export default class SubBusiness extends Vue{

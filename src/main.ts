@@ -13,5 +13,6 @@ import 'bootstrap-vue/dist/bootstrap-vue.css' // add
 createApp(App)
   .use(store)
   .use(router)
+  // .use(BootstrapVue)
   .use(VueAxios, axios)
   .mount('#app')
