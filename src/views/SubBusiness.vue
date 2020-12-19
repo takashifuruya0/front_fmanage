@@ -1,10 +1,10 @@
 <template>
   <div class="sub-busines">
     <!-- <my-nav-bar/> -->
-    <h1>
+    <h2>
       <img alt="Menta logo" src="@/assets/menta.png" width=50>
       Sub Business
-    </h1>
+    </h2>
     
     <opportunity-list msg="Opportunity List"/>
   </div>
