@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 import SubBusiness from '../views/SubBusiness.vue'
+import SubBusinessDetail from '../views/SubBusinessDetail.vue'
+// import OpportunityDetail from '../components/OpportunityDetail.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -17,6 +19,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
+    path: "/sub-business/:id",
+    name: "SubBusinessDetail",
+    component: SubBusinessDetail
+  },
+  {
     path: "/sub-business/",
     name: "SubBusiness",
     component: SubBusiness
@@ -26,11 +33,6 @@ const routes: Array<RouteRecordRaw> = [
     name: "OpportunityList",
     component: Home
   },
-  {
-    path: "/opportunity/:id",
-    name: "OpportunityDetail",
-    component: Home
-  }
 ]
 
 const router = createRouter({

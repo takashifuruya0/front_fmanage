@@ -3,10 +3,10 @@
     <h3>{{msg}}</h3>
         <!-- <b-button variant="primary">bootstrap</b-button> -->
     <a class="btn btn-success" v-on:click="move(previous)" v-if="previous!=null">Previous</a>
-    <a class="btn btn-primary" :href="current">{{current}}</a>
+    <a class="btn btn-primary" :href="current">API</a>
     <a class="btn btn-success" v-on:click="move(next)" v-if="next!=null">Next</a>
     <!-- <a class="btn btn-info" href="/#/sub-business?offset=20">test</a> -->
-    <table class="table table-responsive">
+    <table class="table table-responsive-sm">
       <thead class="thead-light">
         <tr>
           <th>ID</th>
@@ -17,7 +17,6 @@
           <th>Client</th>
           <th>Date</th>
           <th>Value</th>
-          <th>Detail</th>
         </tr>
       </thead>
       <tbody>
@@ -25,7 +24,13 @@
           v-for="opp in opportunities"
           :key="opp.id"
         >
-          <td>{{opp.id}}</td>
+          <td>
+            <router-link 
+              :to="{name:'SubBusinessDetail', params:{id:opp.id}}"
+              tag="button" class="btn btn-primary">
+              {{opp.id}}
+            </router-link>
+          </td>
           <td>{{opp.name}}</td>
           <td>
             <label :class="label_status(opp.status)">
@@ -37,9 +42,6 @@
           <td>{{opp.client}}</td>
           <td>{{opp.date_open}}</td>
           <td>{{numberFormat(opp.val)}}</td>
-          <td>
-            <button class="btn btn-primary">Detail</button>
-          </td>
         </tr>
       </tbody>
     </table>
@@ -67,7 +69,7 @@ export default class OpportunityList extends Vue {
   previous?: URL;
   offset?: number
 
-  base_url = ""
+  base_url = "https://www.fk-management.com"
   opportunities = []
   
   mounted () {

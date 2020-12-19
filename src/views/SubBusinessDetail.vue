@@ -1,30 +1,30 @@
 <template>
   <div class="sub-busines">
-    <!-- <my-nav-bar/> -->
     <h1>
       <img alt="Menta logo" src="@/assets/menta.png" width=50>
       Sub Business
     </h1>
     
-    <opportunity-list msg="Opportunity List"/>
+    <opportunity-detail msg="Opportunity Detail"/>
+    <router-link :to="{name:'SubBusiness'}" tag="button" class="btn btn-info">Back</router-link>
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-import OpportunityList from '@/components/OpportunityList.vue';
+import OpportunityDetail from '@/components/OpportunityDetail.vue';
 import MyNavBar from '@/components/MyNavBar.vue';
 import component from '*.vue';
 
 @Options({
   components: {
     HelloWorld,
-    OpportunityList,
+    OpportunityDetail,
     MyNavBar
   },
 })
-export default class SubBusiness extends Vue{
+export default class SubBusinessDetail extends Vue{
   
 }
 </script>
