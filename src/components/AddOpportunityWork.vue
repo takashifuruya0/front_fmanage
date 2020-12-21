@@ -82,15 +82,17 @@ export default {
         data: payload
       })
       .then((response) => {
-        window.alert(`Created successfully! ${response.data.opportunity}`)
+        // window.alert(`Created successfully! ${response.data.opportunity}`)
         this.$store.commit("setMessageSuccess", `Created successfully! ${response.data.opportunity}`)
         event.target.reset();
       })
       .catch((error) => {
-        window.alert(`Error ${error.response.status} ${error.response.data.detail}`)
+        // window.alert(`Error ${error.response.status} ${error.response.data.detail}`)
         if (error.response.status == 401){
           this.$store.commit("setMessageError", "Not authorized")
           this.$router.push({name: 'Login'})
+        } else {
+          this.$store.commit("setMessageWarning", `${error.response.data.detail}`)
         }
       })
     },

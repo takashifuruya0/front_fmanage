@@ -19,14 +19,14 @@
       <thead class="thead-light">
         <tr>
           <th>ID</th>
-          <th>Date</th>
+          <!-- <th>Date</th> -->
           <th>Name</th>
           <th>Status</th>
-          <th>Type</th>
-          <th>Category</th>
-          <th>Client</th>
+          <!-- <th>Type</th> -->
+          <!-- <th>Category</th> -->
+          <!-- <th>Client</th> -->
           <th>Value</th>
-          <th>Add</th>
+          <!-- <th>Add</th> -->
         </tr>
       </thead>
       <tbody>
@@ -41,20 +41,20 @@
               {{opp.id}}
             </router-link>
           </td>
-          <td>{{opp.date_open}}</td>
+          <!-- <td>{{opp.date_open}}</td> -->
           <td>{{opp.name}}</td>
           <td>
             <label :class="label_status(opp.status)">
             {{opp.status}}
             </label>
           </td>
-          <td>{{opp.type}}</td>
-          <td>{{opp.category_name}}</td>
-          <td>{{opp.client_name}}</td>
+          <!-- <td>{{opp.type}}</td> -->
+          <!-- <td>{{opp.category_name}}</td> -->
+          <!-- <td>{{opp.client_name}}</td> -->
           <td>{{numberFormat(opp.val)}}</td>
-          <td>
+          <!-- <td>
             <add-opportunity-work :id=opp.id />
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </table>
