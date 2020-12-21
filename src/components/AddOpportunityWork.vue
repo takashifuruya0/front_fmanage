@@ -83,6 +83,7 @@ export default {
       })
       .then((response) => {
         window.alert(`Created successfully! ${response.data.opportunity}`)
+        this.$store.commit("setMessageSuccess", `Created successfully! ${response.data.opportunity}`)
         event.target.reset();
       })
       .catch((error) => {

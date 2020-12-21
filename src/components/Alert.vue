@@ -31,57 +31,73 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue} from 'vue-class-component';
-
-@Options({
-  props: {
-    msg: String,
-    type: String,
-    msgs: {
-      success: String,
-      info: String,
-      warning: String,
-      error: String,
+<script>
+export default {
+  methods: {
+    hide_success () {
+      // this.hidden_status.success = true
+      this.$store.commit("setMessageSuccess", null)
+    },
+    hide_info () {
+      // this.hidden_status.info = true
+      this.$store.commit("setMessageInfo", null)
+    },
+    hide_warning () {
+      // this.hidden_status.warning = true
+      this.$store.commit("setMessageWarning", null)
+    },
+    hide_error () {
+      // this.hidden_status.error = true
+      this.$store.commit("setMessageError", null)
     }
-  },
-  components:{
-  }
-})
-
-export default class AlertBadge extends Vue {
-  type?: string;
-
-  memo = "Default"
-
-  msgs = {
-    success: null,
-    info: null,
-    warning: null,
-    error: null,
-  }
-  hidden_status = {
-    success: false,
-    info: false,
-    warning: false,
-    error: false,
-  }
-
-  hide_success () {
-    // this.hidden_status.success = true
-    this.$store.commit("setMessageSuccess", null)
-  }
-  hide_info () {
-    // this.hidden_status.info = true
-    this.$store.commit("setMessageInfo", null)
-  }
-  hide_warning () {
-    // this.hidden_status.warning = true
-    this.$store.commit("setMessageWarning", null)
-  }
-  hide_error () {
-    // this.hidden_status.error = true
-    this.$store.commit("setMessageError", null)
   }
 }
+// import { Options, Vue} from 'vue-class-component';
+
+// @Options({
+//   props: {
+//     msg: String,
+//     type: String,
+//     msgs: {
+//       success: String,
+//       info: String,
+//       warning: String,
+//       error: String,
+//     }
+//   },
+// })
+
+// export default class AlertBadge extends Vue {
+//   memo = "Default"
+
+//   msgs = {
+//     success: null,
+//     info: null,
+//     warning: null,
+//     error: null,
+//   }
+//   hidden_status = {
+//     success: false,
+//     info: false,
+//     warning: false,
+//     error: false,
+//   }
+
+//   hide_success () {
+//     // this.hidden_status.success = true
+//     this.$store.commit("setMessageSuccess", null)
+//   }
+//   hide_info () {
+//     // this.hidden_status.info = true
+//     this.$store.commit("setMessageInfo", null)
+//   }
+//   hide_warning () {
+//     // this.hidden_status.warning = true
+//     this.$store.commit("setMessageWarning", null)
+//   }
+//   hide_error () {
+//     // this.hidden_status.error = true
+//     this.$store.commit("setMessageError", null)
+//   }
+// }
 </script>

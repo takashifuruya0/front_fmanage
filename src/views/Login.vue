@@ -87,10 +87,11 @@ export default {
               {authUser: response.data, isAuthenticated: true}
             )
             this.$router.push({name: 'Home'})
+            this.$store.commit("setMessageSuccess", `Logged in successfully!`)
           })
         })
         .catch((error) => {
-          this.$store.commit("setMessageError", error)
+          this.$store.commit("setMessageWarning", `Failed to log in`)
           console.log(error);
           console.debug(error);
           console.dir(error);
@@ -101,6 +102,7 @@ export default {
         {authUser: {}, isAuthenticated: false}
       )
       this.$store.commit("removeToken")
+      this.$store.commit("setMessageSuccess", `Logged out successfully!`)
       this.$router.push({name: 'Home'})
     }
   }
