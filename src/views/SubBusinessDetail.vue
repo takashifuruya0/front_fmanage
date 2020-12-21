@@ -1,10 +1,5 @@
 <template>
-  <div class="sub-busines">
-    <h1>
-      <img alt="Menta logo" src="@/assets/menta.png" width=50>
-      Sub Business
-    </h1>
-    
+  <div class="sub-busines-detail">
     <opportunity-detail msg="Opportunity Detail"/>
     <router-link :to="{name:'SubBusiness'}" tag="button" class="btn btn-info">Back</router-link>
   </div>

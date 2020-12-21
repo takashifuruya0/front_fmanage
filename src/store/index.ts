@@ -6,13 +6,10 @@ export default createStore({
     authUser: {},
     isAuthenticated: false,
     jwt: localStorage.getItem('token'),
-    // endpoints: {
-    //   // TODO: Remove hardcoding of dev endpoints
-    //   obtainJWT: 'http://127.0.0.1:8000/auth/jwt/create/',
-    //   refreshJWT: 'http://127.0.0.1:8000/auth/jwt/refresh/',
-    //   baseUrl: '/'
-    // },
-    msg: null,
+    msgs_success: null,
+    msgs_info: null,
+    msgs_warning: null,
+    msgs_error: null,
   },
   mutations: {
     setAuthUser(state, {
@@ -32,8 +29,17 @@ export default createStore({
       localStorage.removeItem('token');
       state.jwt = null;
     },
-    setMessage(state, msg){
-      state.msg = msg
+    setMessageSuccess(state, msg){
+      state.msgs_success = msg
+    },
+    setMessageInfo(state, msg){
+      state.msgs_info = msg
+    },
+    setMessageWarning(state, msg){
+      state.msgs_warning = msg
+    },
+    setMessageError(state, msg){
+      state.msgs_error = msg
     },
   },
   actions: {

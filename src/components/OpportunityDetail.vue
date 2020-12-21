@@ -1,31 +1,82 @@
 <template>
-  <div class="opportunity-detail">
+  <div class="container-fluid">
     <h3>{{msg}}</h3>
-    <!-- {{opportunity.name}}
-    {{opportunity.type}} -->
-    <table class="table table-responsive-sm">
-      <!-- {{opportunity}} -->
-      <tr 
-        v-for="(val, key) in opportunity"
-        :key="key"
-      >
-        <th>{{key}}</th>
-        <td>{{val}}</td>
-      </tr>
-      <!-- <tr>
-        <th>商談名</th>
-        <td>{{opportunity.name}}</td>
-      </tr>
-      <tr>
-        <th>金額</th>
-        <td>{{numberFormat(opportunity.val)}}</td>
-      </tr> -->
-    </table>
+    <hr>
+    <div class="row">
+      <div class="col-12 col-sm-6">
+        <h5 id="detail">Detail</h5>
+        <table class="table table-responsive-xs">
+          <tr>
+            <th>Name</th>
+            <td>{{opportunity.name}}</td>
+          </tr>
+          <tr>
+            <th>Client</th>
+            <td>{{opportunity.client_name}}</td>
+          </tr>
+          <tr>
+            <th>Status</th>
+            <td>
+              {{opportunity.type}} / 
+              <label :class="label_status(opportunity.status)">
+              {{opportunity.status}}
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th>Category</th>
+            <td>{{opportunity.category_name}}</td>
+          </tr>
+          <tr>
+            <th>Val</th>
+            <td>
+              {{numberFormat(opportunity.val)}} / {{numberFormat(opportunity.val_payment)}}
+            </td>
+          </tr>
+          <tr>
+            <th>Datetime Start</th>
+            <td>{{opportunity.date_open}}</td>
+          </tr>
+          <tr>
+            <th>Datetime End</th>
+            <td>{{opportunity.date_close}}</td>
+          </tr>
+        </table>
+      </div>
+      <hr>
+      <div class="col-12 col-sm-6">
+        <add-opportunity-work :id=opportunity.id />
+      </div>
+      
+      <div class="col-12">
+        <hr>
+        <h5>自動</h5>
+        <table class="table table-responsive-sm">
+          <!-- {{opportunity}} -->
+          <tr 
+            v-for="(val, key) in opportunity"
+            :key="key"
+          >
+            <th>{{key}}</th>
+            <td>{{val}}</td>
+          </tr>
+          <!-- <tr>
+            <th>商談名</th>
+            <td>{{opportunity.name}}</td>
+          </tr>
+          <tr>
+            <th>金額</th>
+            <td>{{numberFormat(opportunity.val)}}</td>
+          </tr> -->
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue} from 'vue-class-component';
+import AddOpportunityWork from '@/components/AddOpportunityWork.vue'
 // import Vue, { PropType } from "vue";
 // import Component from 'vue-property-decorator';
 
@@ -34,6 +85,7 @@ import { Options, Vue} from 'vue-class-component';
     msg: String,
   },
   components:{
+    AddOpportunityWork,
   }
 })
 
@@ -41,11 +93,16 @@ export default class OpportunityDetail extends Vue {
   msg?: string;
   // opportunity: any;
   opportunity = {
-    'name': null,
-    "val": 0,
-    "date_open": null,
-    "status": null,
-    "type": null,
+    name: null,
+    client_name: null,
+    category_name: null,
+    val: 0,
+    val_payment: 0, 
+    date_open: null,
+    date_close: null,
+    status: null,
+    type: null,
+    id: null,
   };
   base_url = "https://www.fk-management.com"
   
@@ -90,7 +147,7 @@ export default class OpportunityDetail extends Vue {
     } else {
       color = "info"
     }
-    return `badge bg-${color}`
+    return `badge badge-${color}`
   }
 }
 </script>

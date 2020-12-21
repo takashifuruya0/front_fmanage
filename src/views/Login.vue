@@ -1,13 +1,7 @@
 <template lang="html">
   <div>
     <form class="form">
-      <h2>Login Form</h2>
-      <h3 v-if="this.$store.state.isAuthenticated == false">
-          {{this.$store.state.msg}}
-      </h3>
-      <h3 v-else>
-          You are logged in as {{this.$store.state.authUser.username}}
-      </h3>
+      <h3>Login Form</h3>
       <div class="form-group">
         <label for="id_username">Username: </label>
         <input
@@ -96,7 +90,7 @@ export default {
           })
         })
         .catch((error) => {
-          this.$store.commit("setMessage", error)
+          this.$store.commit("setMessageError", error)
           console.log(error);
           console.debug(error);
           console.dir(error);

@@ -26,6 +26,7 @@
           <th>Category</th>
           <th>Client</th>
           <th>Value</th>
+          <th>Add</th>
         </tr>
       </thead>
       <tbody>
@@ -36,7 +37,7 @@
           <td>
             <router-link 
               :to="{name:'SubBusinessDetail', params:{id:opp.id}}"
-              tag="button" class="btn btn-primary">
+              tag="button" class="btn btn-sm btn-primary">
               {{opp.id}}
             </router-link>
           </td>
@@ -51,6 +52,9 @@
           <td>{{opp.category_name}}</td>
           <td>{{opp.client_name}}</td>
           <td>{{numberFormat(opp.val)}}</td>
+          <td>
+            <add-opportunity-work :id=opp.id />
+          </td>
         </tr>
       </tbody>
     </table>
@@ -60,6 +64,8 @@
 
 <script lang="ts">
 import { Options, Vue} from 'vue-class-component';
+import AddOpportunityWork from '@/components/AddOpportunityWork.vue'
+// import AlertBadge from '@/components/Alert.vue'
 // import Vue, { PropType } from "vue";
 // import Component from 'vue-property-decorator';
 
@@ -68,6 +74,8 @@ import { Options, Vue} from 'vue-class-component';
     msg: String,
   },
   components:{
+    AddOpportunityWork,
+    // AlertBadge,
   }
 })
 
@@ -159,7 +167,7 @@ export default class OpportunityList extends Vue {
     } else {
       color = "info"
     }
-    return `badge bg-${color}`
+    return `badge badge-${color}`
   }
 
   get_status() {
