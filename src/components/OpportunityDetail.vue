@@ -174,37 +174,38 @@ export default class OpportunityDetail extends Vue {
     })
     .then(response => {
       this.opportunity = response.data;
-      let ow_list: any[] = [];
-      const base = {
-        baseURL: "/",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      }
-      const axiosInstance = this.axios.create(base)
-      axiosInstance({
-        method: "get",
-        url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
-      })
-      // this.axios({
-      //   method: "get",
-      //   url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // })
-      .then(response => {
-        for (const ow of response.data.results) {
-          this.sum_working_time += ow.working_time/60
-        }
-        this.opportunity_works = response.data.results
-      })
-      .catch(e => {
-        window.alert(e.response.data)
-      })
     })
     .catch(e => {
       window.alert(e);
+    })
+    // Opportunity Worki List
+    let ow_list: any[] = [];
+    const base = {
+      baseURL: "/",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }
+    const axiosInstance = this.axios.create(base)
+    axiosInstance({
+      method: "get",
+      url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
+    })
+    // this.axios({
+    //   method: "get",
+    //   url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
+    .then(response => {
+      for (const ow in response.data.results) {
+        this.sum_working_time += response.data.results[ow].working_time/60
+      }
+      this.opportunity_works = response.data.results
+    })
+    .catch(e => {
+      window.alert(e.response.data)
     })
   }
 
