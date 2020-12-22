@@ -168,6 +168,7 @@ export default class OpportunityDetail extends Vue {
   
   mounted () {
     // window.alert(this.base_url)
+    scrollTo(0, 0)
     this.axios({
       method: "get",
       url: `${this.base_url}/drm/lancers/opportunity/${this.$route.params.id}/`,
@@ -199,9 +200,14 @@ export default class OpportunityDetail extends Vue {
     return `badge badge-${color}`
   }
 
-  show_datetime(dt_str: string) {
+  show_datetime(dt_str: string|null) {
     // 2020-12-19T13:30:00+09:00
-    return `${dt_str.slice(0, 10)} ${dt_str.slice(11, 16)}`
+    if (dt_str == null) {
+      return "-"
+    } else {
+      return `${dt_str.slice(0, 10)} ${dt_str.slice(11, 16)}`
+    }
+    
   }
 
   switch_ow_list() {
