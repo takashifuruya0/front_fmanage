@@ -194,7 +194,7 @@ export default class OpportunityDetail extends Vue {
       //   }
       // })
       .then(response => {
-        for (let ow of response.data.results) {
+        for (const ow of response.data.results) {
           this.sum_working_time += ow.working_time/60
         }
         this.opportunity_works = response.data.results
