@@ -28,6 +28,12 @@
         Log Out
       </button>
       <button
+        @click.prevent="refresh"
+        class="btn btn-info"
+        type="submit">
+        Refresh
+      </button>
+      <button
         @click.prevent="authenticate"
         class="btn btn-primary"
         type="submit">
@@ -54,54 +60,90 @@ export default {
         password: this.password
       }
       axios.post(
-        // this.$store.state.endpoints.obtainJWT, 
-          "https://www.fk-management.com/auth/jwt/create/",
-          payload
-        )
-        .then((response) => {
-          this.$store.commit('updateToken', response.data.access)
-          this.$store.commit("setMessage", "")
-          // get and set auth user
-          const base = {
-            baseURL: "/",
-            headers: {
-            // Set your Authorization to 'JWT', not Bearer!!!
-              Authorization: `JWT ${this.$store.state.jwt}`,
-              'Content-Type': 'application/json'
-            },
-            xhrFields: {
-                withCredentials: true
-            }
+        "https://www.fk-management.com/auth/jwt/create/",
+        payload
+      )
+      .then((response) => {
+        this.$store.commit('updateToken', response.data.access)
+        this.$store.commit('updateRefresh', response.data.refresh);
+        // get and set auth user
+        const base = {
+          baseURL: "/",
+          headers: {
+          // Set your Authorization to 'JWT', not Bearer!!!
+            Authorization: `JWT ${this.$store.state.jwt}`,
+            'Content-Type': 'application/json'
+          },
+          xhrFields: {
+              withCredentials: true
           }
-          // Even though the authentication returned a user object that can be
-          // decoded, we fetch it again. This way we aren't super dependant on
-          // JWT and can plug in something else.
-          const axiosInstance = axios.create(base)
-          axiosInstance({
-            url: "https://www.fk-management.com/auth/user-detail/",
-            method: "get",
-            params: {}
-          })
-          .then((response) => {
-            this.$store.commit("setAuthUser",
-              {authUser: response.data, isAuthenticated: true}
-            )
-            this.$router.push({name: 'Home'})
-            this.$store.commit("setMessageSuccess", `Logged in successfully!`)
-          })
+        }
+        // Even though the authentication returned a user object that can be
+        // decoded, we fetch it again. This way we aren't super dependant on
+        // JWT and can plug in something else.
+        const axiosInstance = axios.create(base)
+        axiosInstance({
+          url: "https://www.fk-management.com/auth/user-detail/",
+          method: "get",
+          params: {}
         })
-        .catch((error) => {
-          this.$store.commit("setMessageWarning", `Failed to log in`)
-          console.log(error);
-          console.debug(error);
-          console.dir(error);
+        .then((response) => {
+          this.$store.commit("setAuthUser",
+            {authUser: response.data, isAuthenticated: true}
+          )
+          this.$router.push({name: 'Home'})
+          this.$store.commit("setMessageSuccess", `Logged in successfully!`)
         })
+      })
+      .catch((error) => {
+        this.$store.commit("setMessageWarning", `Failed to log in`)
+      })
+    },
+    refresh () {
+      const payload = {
+        refresh: this.$store.state.refresh,
+      }
+      axios.post(
+        "https://www.fk-management.com/auth/jwt/refresh/",
+        payload
+      )
+      .then((response) => {
+        this.$store.commit('updateToken', response.data.access);
+        // get and set auth user
+        const base = {
+          baseURL: "/",
+          headers: {
+            Authorization: `JWT ${this.$store.state.jwt}`,
+            'Content-Type': 'application/json'
+          },
+          xhrFields: {
+              withCredentials: true
+          }
+        }
+        const axiosInstance = axios.create(base)
+        axiosInstance({
+          url: "https://www.fk-management.com/auth/user-detail/",
+          method: "get",
+          params: {}
+        })
+        .then((response) => {
+          this.$store.commit("setAuthUser",
+            {authUser: response.data, isAuthenticated: true}
+          )
+          this.$router.push({name: 'Home'})
+          this.$store.commit("setMessageSuccess", `Refreshed successfully!`)
+        })
+      })
+      .catch((error) => {
+        this.$store.commit("setMessageWarning", `Failed to Refresh`)
+      })
     },
     logout () {
       this.$store.commit("setAuthUser",
         {authUser: {}, isAuthenticated: false}
       )
       this.$store.commit("removeToken")
+      this.$store.commit("removeRefresh")
       this.$store.commit("setMessageSuccess", `Logged out successfully!`)
       this.$router.push({name: 'Home'})
     }

@@ -44,7 +44,7 @@ export default {
     },
     hide_warning () {
       // this.hidden_status.warning = true
-      this.$store.commit("setMessageWarning", null)
+      this.$store.commit("setMessageWarning", null)  
     },
     hide_error () {
       // this.hidden_status.error = true

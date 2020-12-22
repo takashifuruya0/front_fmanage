@@ -5,11 +5,10 @@
       @submit.prevent="formSubmit">
       <h5>Add OpportunityWork {{id}}</h5>
       <div class="form-group">
-        <label for="id_start_date">StartDate: </label>
+        <label for="id_start_date">Date: </label>
         <input
           class="form-control"
           v-model="start_date"
-          v-on:input="show(start_date)"
           type="date"
           autofocus="autofocus"
           id="id_start_date">
@@ -20,15 +19,6 @@
           v-on:input="show(start_time)"
           type="time"
           id="id_start_time">
-      </div>
-      <div class="form-group">
-        <label for="id_end_date">EndDate: </label>
-        <input
-          class="form-control"
-          v-model="end_date"
-          type="date"
-          autofocus="autofocus"
-          id="id_end_date">
         <label for="id_end_time">EndTime: </label>
         <input
           class="form-control"
@@ -64,7 +54,7 @@ export default {
     formSubmit (event) {
       const payload = {
         datetime_start: `${this.start_date} ${this.start_time}`,
-        datetime_end: `${this.end_date} ${this.end_time}`,
+        datetime_end: `${this.start_date} ${this.end_time}`,
         working_time: 0,
         memo: this.memo,
         opportunity: this.id
@@ -82,9 +72,9 @@ export default {
         data: payload
       })
       .then((response) => {
-        // window.alert(`Created successfully! ${response.data.opportunity}`)
         this.$store.commit("setMessageSuccess", `Created successfully! ${response.data.opportunity}`)
         event.target.reset();
+        scrollTo(0, 0)
       })
       .catch((error) => {
         // window.alert(`Error ${error.response.status} ${error.response.data.detail}`)

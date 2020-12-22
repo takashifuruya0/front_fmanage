@@ -41,6 +41,43 @@
             <th>Datetime End</th>
             <td>{{opportunity.date_close}}</td>
           </tr>
+          <tr>
+            <th>Working Time</th>
+            <td>
+              {{sum_working_time}} h  
+            </td>
+          </tr>
+          <tr>
+            <th>OW List</th>
+            <td>
+              <button 
+                class="btn btn-info btn-sm" @click="switch_ow_list()"
+                v-if="is_hidden_ow_list"
+              >
+                Open <span class="badge badge-light badge-pill">{{opportunity_works.length}}</span>
+              </button>
+              <button 
+                class="btn btn-secondary btn-sm" @click="switch_ow_list()"
+                v-else
+              >
+                Hide <span class="badge badge-light badge-pill">{{opportunity_works.length}}</span>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <ul class="list-group" :hidden="is_hidden_ow_list">
+                <li
+                  class="list-group-item"
+                  v-for="ow in opportunity_works.reverse()"
+                  :key="ow.id"
+                >
+                  {{show_datetime(ow.datetime_start)}} ~ {{show_datetime(ow.datetime_end)}}
+                  <span class="badge badge-primary badge-pill">{{ow.working_time/60}} h</span>
+                </li>
+              </ul>
+            </td>
+          </tr>
         </table>
       </div>
       <hr>
@@ -105,7 +142,17 @@ export default class OpportunityDetail extends Vue {
     id: null,
   };
   base_url = "https://www.fk-management.com"
-  
+  sum_working_time: number = 0;
+  is_hidden_ow_list: boolean = true;
+
+  OppotunityWork!: {
+    id: Number;
+    datetime_start: Date;
+    datetime_end: Date;
+    working_time: Number;
+  };
+  opportunity_works = [];
+
   
   // mounted () {
   //   // window.alert("OK")
@@ -127,7 +174,23 @@ export default class OpportunityDetail extends Vue {
     })
     .then(response => {
       this.opportunity = response.data;
-      // window.alert(response.data.name)
+      let ow_list: any[] = [];
+      this.axios({
+        method: "get",
+        url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        for (let ow of response.data.results) {
+          this.sum_working_time += ow.working_time/60
+        }
+        this.opportunity_works = response.data.results
+      })
+      .catch(e => {
+        window.alert(e.response.data)
+      })
     })
     .catch(e => {
       window.alert(e);
@@ -148,6 +211,19 @@ export default class OpportunityDetail extends Vue {
       color = "info"
     }
     return `badge badge-${color}`
+  }
+
+  show_datetime(dt_str: string) {
+    // 2020-12-19T13:30:00+09:00
+    return `${dt_str.slice(0, 10)} ${dt_str.slice(11, 16)}`
+  }
+
+  switch_ow_list() {
+    if (this.is_hidden_ow_list) {
+      this.is_hidden_ow_list = false;
+    } else {
+      this.is_hidden_ow_list = true;
+    }
   }
 }
 </script>
