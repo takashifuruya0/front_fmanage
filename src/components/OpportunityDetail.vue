@@ -175,13 +175,24 @@ export default class OpportunityDetail extends Vue {
     .then(response => {
       this.opportunity = response.data;
       let ow_list: any[] = [];
-      this.axios({
-        method: "get",
-        url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
+      const base = {
+        baseURL: "/",
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+      }
+      const axiosInstance = this.axios.create(base)
+      axiosInstance({
+        method: "get",
+        url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
       })
+      // this.axios({
+      //   method: "get",
+      //   url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   }
+      // })
       .then(response => {
         for (let ow of response.data.results) {
           this.sum_working_time += ow.working_time/60
