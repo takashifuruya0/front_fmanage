@@ -43,7 +43,10 @@
           </tr>
           <tr>
             <th>Working Time</th>
-            <td>
+            <td v-if="sum_working_time==0">
+              - h  
+            </td>
+            <td v-else>
               {{sum_working_time}} h  
             </td>
           </tr>
@@ -54,7 +57,7 @@
                 class="btn btn-info btn-sm" @click="switch_ow_list()"
                 v-if="is_hidden_ow_list"
               >
-                Open <span class="badge badge-light badge-pill">{{opportunity_works.length}}</span>
+                Load
               </button>
               <button 
                 class="btn btn-secondary btn-sm" @click="switch_ow_list()"
@@ -178,35 +181,6 @@ export default class OpportunityDetail extends Vue {
     .catch(e => {
       window.alert(e);
     })
-    // Opportunity Worki List
-    let ow_list: any[] = [];
-    const base = {
-      baseURL: "/",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    }
-    const axiosInstance = this.axios.create(base)
-    axiosInstance({
-      method: "get",
-      url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
-    })
-    // this.axios({
-    //   method: "get",
-    //   url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // })
-    .then(response => {
-      for (const ow in response.data.results) {
-        this.sum_working_time += response.data.results[ow].working_time/60
-      }
-      this.opportunity_works = response.data.results
-    })
-    .catch(e => {
-      window.alert(e.response.data)
-    })
   }
 
   label_status(status: string){
@@ -232,7 +206,27 @@ export default class OpportunityDetail extends Vue {
 
   switch_ow_list() {
     if (this.is_hidden_ow_list) {
+      // Opportunity Worki List
+      let ow_list: any[] = [];
+      this.axios({
+        method: "get",
+        url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        window.alert("OK")
+        for (const ow in response.data.results) {
+          this.sum_working_time += response.data.results[ow].working_time/60
+        }
+        this.opportunity_works = response.data.results
+      })
+      .catch(e => {
+        window.alert(e.response.data)
+      })
       this.is_hidden_ow_list = false;
+
     } else {
       this.is_hidden_ow_list = true;
     }
