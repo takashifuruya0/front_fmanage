@@ -72,11 +72,11 @@
               <ul class="list-group" :hidden="is_hidden_ow_list">
                 <li
                   class="list-group-item"
-                  v-for="ow in opportunity_works.reverse()"
+                  v-for="ow in opportunity_works"
                   :key="ow.id"
                 >
                   {{show_datetime(ow.datetime_start)}} ~ {{show_datetime(ow.datetime_end)}}
-                  <span class="badge badge-primary badge-pill">{{ow.working_time/60}} h</span>
+                  <span class="badge badge-primary badge-pill">{{ow.working_time}} min</span>
                 </li>
               </ul>
             </td>
@@ -216,10 +216,10 @@ export default class OpportunityDetail extends Vue {
         }
       })
       .then(response => {
-        window.alert("OK")
         for (const ow in response.data.results) {
-          this.sum_working_time += response.data.results[ow].working_time/60
+          this.sum_working_time += response.data.results[ow].working_time
         }
+        this.sum_working_time = this.sum_working_time/60
         this.opportunity_works = response.data.results
       })
       .catch(e => {
