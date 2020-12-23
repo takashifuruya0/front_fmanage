@@ -10,7 +10,6 @@
           class="form-control"
           v-model="start_date"
           type="date"
-          autofocus="autofocus"
           id="id_start_date">
         <label for="id_start_time">StartTime: </label>
         <input
