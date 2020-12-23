@@ -178,6 +178,7 @@ export default class OpportunityDetail extends Vue {
     })
     .then(response => {
       this.opportunity = response.data;
+      this.switch_ow_list()
     })
     .catch(e => {
       window.alert(e);
@@ -212,30 +213,35 @@ export default class OpportunityDetail extends Vue {
 
   switch_ow_list() {
     if (this.is_hidden_ow_list) {
-      // Opportunity Worki List
-      let ow_list: any[] = [];
-      this.axios({
-        method: "get",
-        url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => {
-        for (const ow in response.data.results) {
-          this.sum_working_time += response.data.results[ow].working_time
-        }
-        this.sum_working_time = this.sum_working_time/60
-        this.opportunity_works = response.data.results
-      })
-      .catch(e => {
-        window.alert(e.response.data)
-      })
+      this.load_ow_list()
       this.is_hidden_ow_list = false;
 
     } else {
       this.is_hidden_ow_list = true;
     }
+  }
+
+  load_ow_list() {
+    // Opportunity Worki List
+    let ow_list: any[] = [];
+    this.sum_working_time = 0;
+    this.axios({
+      method: "get",
+      url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      for (const ow in response.data.results) {
+        this.sum_working_time += response.data.results[ow].working_time
+      }
+      this.sum_working_time = this.sum_working_time/60
+      this.opportunity_works = response.data.results
+    })
+    .catch(e => {
+      window.alert(e.response.data)
+    })
   }
 }
 </script>
