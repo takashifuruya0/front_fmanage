@@ -30,7 +30,6 @@
         <textarea
           class="form-control"
           v-model="memo"
-          autofocus="autofocus"
           id="id_memo"></textarea>
       </div>
       <button
