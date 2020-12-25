@@ -60,6 +60,10 @@ export default {
       const ds = new Date(payload.datetime_start)
       const de = new Date(payload.datetime_end)
       payload.working_time = (de - ds)/60/1000
+      if (not(payload.working_time > 0)) {
+        this.$store.commit("setMessageError", `Working Time is ${payload.working_time}`)
+        scrollTo(0,0)
+      }
       axios({
         method: "post",
         url: "https://www.fk-management.com/drm/lancers/opportunitywork/",

@@ -136,6 +136,11 @@ export default {
       })
       .catch((error) => {
         this.$store.commit("setMessageWarning", `Failed to Refresh`)
+        this.$store.commit("setAuthUser",
+          {authUser: {}, isAuthenticated: false}
+        )
+        this.$store.commit("removeToken")
+        this.$store.commit("removeRefresh")
       })
     },
     logout () {
