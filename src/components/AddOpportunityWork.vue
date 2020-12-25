@@ -60,7 +60,6 @@ export default {
       const ds = new Date(payload.datetime_start)
       const de = new Date(payload.datetime_end)
       payload.working_time = (de - ds)/60/1000
-      window.alert(payload.working_time)
       axios({
         method: "post",
         url: "https://www.fk-management.com/drm/lancers/opportunitywork/",
