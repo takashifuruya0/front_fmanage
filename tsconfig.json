@@ -11,6 +11,8 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "noImplicitAny": false, 
+    "noImplicitThis": false,  
     "baseUrl": ".",
     "types": [
       "webpack-env"

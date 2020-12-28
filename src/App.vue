@@ -16,7 +16,7 @@
     <span 
       v-else
       class="badge badge-success">
-      You are logged in as {{this.$store.state.authUser.username}}
+      Logged in as {{this.$store.state.authUser.username}}
     </span>
   </div>
   <router-view/>

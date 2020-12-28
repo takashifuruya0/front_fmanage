@@ -21,6 +21,25 @@
               <label :class="label_status(opportunity.status)">
               {{opportunity.status}}
               </label>
+
+              <button
+                v-show="opportunity.status=='選定/作業中'"
+                class="btn btn-sm btn-block btn-success"
+                v-on:click="change_status('選定/終了')">
+                <fa icon="check-circle" type="fas" class="classname" width=15></fa> 終了
+              </button>
+              <button
+                v-show="opportunity.status=='提案中'"
+                class="btn btn-sm btn-block btn-secondary"
+                v-on:click="change_status('落選')">
+                <fa icon="check-circle" type="fas" class="classname" width=15></fa> 落選
+              </button>
+              <button
+                v-show="opportunity.status=='提案中' || opportunity.status=='相談中'"
+                class="btn btn-sm btn-block btn-primary"
+                v-on:click="change_status('選定/作業中')">
+                <fa icon="check-circle" type="fas" class="classname" width=15></fa> 選定
+              </button>
             </td>
           </tr>
           <tr>
@@ -54,16 +73,17 @@
             <th>OW List</th>
             <td>
               <button 
-                class="btn btn-info btn-sm" @click="switch_ow_list()"
+                class="btn btn-info btn-sm btn-block" @click="switch_ow_list()"
                 v-if="is_hidden_ow_list"
               >
-                Load
+                <fa icon="sync-alt" type="fas" class="classname" width=15></fa> Reload
               </button>
               <button 
-                class="btn btn-secondary btn-sm" @click="switch_ow_list()"
+                class="btn btn-secondary btn-sm btn-block" @click="switch_ow_list()"
                 v-else
               >
-                Hide <span class="badge badge-light badge-pill">{{opportunity_works.length}}</span>
+                <fa icon="minus-circle" type="fas" class="classname" width=15></fa> Hide 
+                <span class="badge badge-light badge-pill">{{opportunity_works.length}}</span>
               </button>
             </td>
           </tr>
@@ -157,14 +177,10 @@ export default class OpportunityDetail extends Vue {
   opportunity_works = [];
 
   
-  // mounted () {
-  //   // window.alert("OK")
-  //   this.get()
-  // }
-
   numberFormat = (value: number)  => {
     return `¥${value.toLocaleString()}`;
   }
+  $store: any;
   
   mounted () {
     // window.alert(this.base_url)
@@ -242,6 +258,53 @@ export default class OpportunityDetail extends Vue {
     .catch(e => {
       window.alert(e.response.data)
     })
+  }
+
+  load_opportunity () {
+    this.axios({
+      method: "get",
+      url: `${this.base_url}/drm/lancers/opportunity/${this.$route.params.id}/`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      this.opportunity = response.data;
+      this.switch_ow_list()
+    })
+    .catch(e => {
+      window.alert(e);
+    })
+  }
+
+  change_status(status) {
+    if (window.confirm(`${status}にしますか？`)){
+      let data = {
+        status: status,
+      }
+      if (status=="選定/終了") {
+        data['date_close'] = new Date().toISOString().split("T")[0]  
+      }
+      this.axios({
+        method: "patch",
+        url: `${this.base_url}/drm/lancers/opportunity/${this.$route.params.id}/`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `JWT ${this.$store.state.jwt}`,
+        },
+        data: data
+      })
+      .then(response => {
+        this.load_opportunity()
+        this.$store.commit("setMessageSuccess", `Updated status successfully! ${response.data.status}`)
+        scrollTo(0,0)
+      })
+      .catch(e => {
+        this.$store.commit("setMessageError", `Failed to update status! ${e.response.data.detail}`)
+        scrollTo(0,0)
+        // window.alert(e.response.data.detail)
+      })
+    }
   }
 }
 </script>

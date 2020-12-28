@@ -8,6 +8,9 @@ import VueAxios from 'vue-axios' //追記
 import BootstrapVue from 'bootstrap-vue' // add
 import 'bootstrap/dist/css/bootstrap.css' // add
 import 'bootstrap-vue/dist/bootstrap-vue.css' // add
+// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon } from "@/plugins/font-awesome.ts"
+
 
 
 createApp(App)
@@ -15,4 +18,5 @@ createApp(App)
   .use(router)
   // .use(BootstrapVue)
   .use(VueAxios, axios)
+  .component('fa', FontAwesomeIcon)
   .mount('#app')

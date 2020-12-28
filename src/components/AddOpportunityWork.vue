@@ -35,7 +35,7 @@
       <button
         class="btn btn-primary"
         type="submit">
-        Submit
+        <fa icon="plus" type="fas" class="classname" width=12></fa> Submit
       </button>
     </form>
   </div>
