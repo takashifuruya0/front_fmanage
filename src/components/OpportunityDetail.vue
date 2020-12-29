@@ -1,6 +1,8 @@
 <template>
   <div class="container-fluid">
-    <h3>{{msg}}</h3>
+    <h3>
+      {{msg}}
+    </h3>
     <hr>
     <div class="row">
       <div class="col-12 col-sm-6">
@@ -21,6 +23,12 @@
               <label :class="label_status(opportunity.status)">
               {{opportunity.status}}
               </label>
+              <label 
+                v-if="opportunity.is_regular"
+                class="badge badge-dark badge-pill">
+                定期案件
+              </label>
+              
 
               <button
                 v-show="opportunity.status=='選定/作業中'"
@@ -96,7 +104,9 @@
                   :key="ow.id"
                 >
                   {{show_datetime(ow.datetime_start)}} ~ {{show_datetime(ow.datetime_end)}}
-                  <span class="badge badge-primary badge-pill">{{ow.working_time}} min</span>
+                  <span class="badge badge-primary badge-pill">
+                    <fa icon="clock" type="fas" class="classname" width=10></fa> {{ow.working_time}} min
+                  </span>
                 </li>
               </ul>
             </td>
@@ -210,7 +220,7 @@ export default class OpportunityDetail extends Vue {
     } else if (status == "キャンセル"){
       color = "warning"
     } else if (status == "落選"){
-      color = "secondary"
+      color = "danger"
     } else {
       color = "info"
     }
