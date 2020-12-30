@@ -57,8 +57,8 @@ export default {
         memo: this.memo,
         opportunity: this.id
       }
-      const ds = new Date(payload.datetime_start)
-      const de = new Date(payload.datetime_end)
+      const ds = new Date(payload.datetime_start.replace("-", "/"))
+      const de = new Date(payload.datetime_end.replace("-", "/"))
       payload.working_time = (de - ds)/60/1000
       
       if(window.confirm(`${payload.datetime_start}~${payload.datetime_end} : ${ds}~${de} ${payload.working_time}`)){return}
