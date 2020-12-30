@@ -60,9 +60,9 @@ export default {
       const ds = new Date(payload.datetime_start)
       const de = new Date(payload.datetime_end)
       payload.working_time = (de - ds)/60/1000
-      if (payload.working_time == null){
-        if(window.confirm(`${payload.datetime_start}~${payload.datetime_end} : ${ds}~${de}`)){return}
-      }
+      
+      if(window.confirm(`${payload.datetime_start}~${payload.datetime_end} : ${ds}~${de} ${payload.working_time}`)){return}
+      
       axios({
         method: "post",
         url: "https://www.fk-management.com/drm/lancers/opportunitywork/",
