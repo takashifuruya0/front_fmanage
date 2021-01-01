@@ -19,7 +19,7 @@
       <thead class="thead-light">
         <tr>
           <th>ID</th>
-          <!-- <th>Date</th> -->
+          <th>Date Open</th>
           <th>Name</th>
           <th>Status</th>
           <!-- <th>Type</th> -->
@@ -41,7 +41,7 @@
               {{opp.id}}
             </router-link>
           </td>
-          <!-- <td>{{opp.date_open}}</td> -->
+          <td>{{opp.date_open}}</td>
           <td>{{opp.name}}</td>
           <td>
             <label :class="label_status(opp.status)">

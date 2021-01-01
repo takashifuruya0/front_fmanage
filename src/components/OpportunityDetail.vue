@@ -10,7 +10,11 @@
         <table class="table table-responsive-xs">
           <tr>
             <th>Name</th>
-            <td>{{opportunity.name}}</td>
+            <td>
+              <a :href="'/admin/lancers/opportunity/'+opportunity.id">
+                {{opportunity.name}}
+              </a>
+            </td>
           </tr>
           <tr>
             <th>Client</th>
@@ -61,12 +65,16 @@
             </td>
           </tr>
           <tr>
-            <th>Datetime Start</th>
+            <th>Datet Open</th>
             <td>{{opportunity.date_open}}</td>
           </tr>
           <tr>
-            <th>Datetime End</th>
+            <th>Date Close</th>
             <td>{{opportunity.date_close}}</td>
+          </tr>
+          <tr>
+            <th>Date Payment</th>
+            <td>{{opportunity.date_payment}}</td>
           </tr>
           <tr>
             <th>Working Time</th>
@@ -122,7 +130,6 @@
         <hr>
         <h5>自動</h5>
         <table class="table table-responsive-sm">
-          <!-- {{opportunity}} -->
           <tr 
             v-for="(val, key) in opportunity"
             :key="key"
@@ -130,14 +137,6 @@
             <th>{{key}}</th>
             <td>{{val}}</td>
           </tr>
-          <!-- <tr>
-            <th>商談名</th>
-            <td>{{opportunity.name}}</td>
-          </tr>
-          <tr>
-            <th>金額</th>
-            <td>{{numberFormat(opportunity.val)}}</td>
-          </tr> -->
         </table>
       </div>
     </div>
@@ -170,6 +169,7 @@ export default class OpportunityDetail extends Vue {
     val_payment: 0, 
     date_open: null,
     date_close: null,
+    date_payment: null,
     status: null,
     type: null,
     id: null,
@@ -294,6 +294,8 @@ export default class OpportunityDetail extends Vue {
       }
       if (status=="選定/終了") {
         data['date_close'] = new Date().toISOString().split("T")[0]  
+      } else if(status=="選定/作業中" && this.opportunity.type=="MENTA"){
+        data['date_payment'] = this.opportunity.date_open
       }
       this.axios({
         method: "patch",
