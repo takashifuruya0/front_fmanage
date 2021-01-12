@@ -20,6 +20,7 @@
         <tr>
           <th>ID</th>
           <th>Date Open</th>
+          <th>Date Close</th>
           <th>Name</th>
           <th>Status</th>
           <!-- <th>Type</th> -->
@@ -41,7 +42,30 @@
               {{opp.id}}
             </router-link>
           </td>
-          <td>{{opp.date_open}}</td>
+          <td>
+            {{opp.date_open}}
+            <label 
+              v-show="
+                new Date() >= new Date(opp.date_open) 
+                && (opp.status == '相談中' || opp.status == '提案中')
+                && opp.date_open != null
+                " 
+              class="badge badge-warning">
+              作業開始
+            </label>
+          </td>
+          <td>
+            {{opp.date_close}}
+            <label 
+              v-show="
+                new Date() > new Date(opp.date_close) 
+                && opp.status == '選定/作業中'
+                && opp.date_close != null
+                " 
+              class="badge badge-danger">
+              納期超え
+            </label>
+          </td>
           <td>{{opp.name}}</td>
           <td>
             <label :class="label_status(opp.status)">
@@ -176,6 +200,10 @@ export default class OpportunityList extends Vue {
     } else {
       return "ALL"
     }
+  }
+
+  is_over_deadline(date_close: string) {
+    return new Date() > new Date(date_close)
   }
 }
 

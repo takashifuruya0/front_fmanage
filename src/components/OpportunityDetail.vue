@@ -47,6 +47,12 @@
                 <fa icon="check-circle" type="fas" class="classname" width=15></fa> 落選
               </button>
               <button
+                v-show="opportunity.status=='相談中'"
+                class="btn btn-sm btn-block btn-secondary"
+                v-on:click="change_status('キャンセル')">
+                <fa icon="check-circle" type="fas" class="classname" width=15></fa> キャンセル
+              </button>
+              <button
                 v-show="opportunity.status=='提案中' || opportunity.status=='相談中'"
                 class="btn btn-sm btn-block btn-primary"
                 v-on:click="change_status('選定/作業中')">
@@ -66,11 +72,33 @@
           </tr>
           <tr>
             <th>Datet Open</th>
-            <td>{{opportunity.date_open}}</td>
+            <td>
+              {{opportunity.date_open}}
+              <label 
+                v-show="
+                  new Date() >= new Date(opportunity.date_open) 
+                  && (opportunity.status == '相談中' || opportunity.status == '提案中')
+                  && opportunity.date_open != null
+                  " 
+                class="badge badge-warning">
+                作業開始
+              </label>
+            </td>
           </tr>
           <tr>
             <th>Date Close</th>
-            <td>{{opportunity.date_close}}</td>
+            <td>
+              {{opportunity.date_close}}
+              <label 
+                v-show="
+                  new Date() > new Date(opportunity.date_close) 
+                  && opportunity.status == '選定/作業中'
+                  && opportunity.date_close != null
+                  " 
+                class="badge badge-danger">
+                納期超え
+              </label>
+            </td>
           </tr>
           <tr>
             <th>Date Payment</th>
@@ -292,8 +320,10 @@ export default class OpportunityDetail extends Vue {
       let data = {
         status: status,
       }
-      if (status=="選定/終了") {
-        data['date_close'] = new Date().toISOString().split("T")[0]  
+      if (status=="選定/終了" && this.opportunity.type!="MENTA") {
+        data['date_close'] = data['date_payment'] = new Date().toISOString().split("T")[0];
+      } else if (status=="選定/終了" && this.opportunity.type=="MENTA") {
+        data['date_close'] = new Date().toISOString().split("T")[0];
       } else if(status=="選定/作業中" && this.opportunity.type=="MENTA"){
         data['date_payment'] = this.opportunity.date_open
       }
