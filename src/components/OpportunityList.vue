@@ -58,7 +58,7 @@
             {{opp.date_close}}
             <label 
               v-show="
-                new Date() > new Date(opp.date_close) 
+                new Date() >= new Date(opp.date_close) 
                 && opp.status == '選定/作業中'
                 && opp.date_close != null
                 " 
