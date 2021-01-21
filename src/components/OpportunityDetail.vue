@@ -47,7 +47,7 @@
                 <fa icon="check-circle" type="fas" class="classname" width=15></fa> 落選
               </button>
               <button
-                v-show="opportunity.status=='相談中'"
+                v-show="opportunity.status=='提案中' || opportunity.status=='相談中'"
                 class="btn btn-sm btn-block btn-secondary"
                 v-on:click="change_status('キャンセル')">
                 <fa icon="check-circle" type="fas" class="classname" width=15></fa> キャンセル
