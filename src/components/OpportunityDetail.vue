@@ -18,22 +18,26 @@
           </tr>
           <tr>
             <th>Client</th>
-            <td>{{opportunity.client_name}}</td>
+            <td>
+              {{opportunity.client_name}}
+              <label class="badge badge-success" v-show="opportunity.client_name_slack">
+                Slack: <span class="badge badge-light">{{opportunity.client_name_slack}}</span>
+              </label>
+            </td>
           </tr>
           <tr>
             <th>Status</th>
             <td>
-              {{opportunity.type}} / 
-              <label :class="label_status(opportunity.status)">
-              {{opportunity.status}}
-              </label>
-              <label 
-                v-if="opportunity.is_regular"
-                class="badge badge-dark badge-pill">
-                定期案件
-              </label>
-              
-
+              <h5>
+                <label :class="label_status(opportunity.status)">
+                  {{opportunity.status}} <span class="badge badge-light badge-pill">{{opportunity.type}}</span>
+                </label>
+                <label 
+                  v-if="opportunity.is_regular"
+                  class="badge badge-dark badge-pill">
+                  定期案件
+                </label>
+              </h5>
               <button
                 v-show="opportunity.status=='選定/作業中'"
                 class="btn btn-sm btn-block btn-success"
@@ -44,13 +48,13 @@
                 v-show="opportunity.status=='提案中'"
                 class="btn btn-sm btn-block btn-secondary"
                 v-on:click="change_status('落選')">
-                <fa icon="check-circle" type="fas" class="classname" width=15></fa> 落選
+                <fa icon="window-close" type="fas" class="classname" width=15></fa> 落選
               </button>
               <button
                 v-show="opportunity.status=='提案中' || opportunity.status=='相談中'"
-                class="btn btn-sm btn-block btn-secondary"
+                class="btn btn-sm btn-block btn-warning"
                 v-on:click="change_status('キャンセル')">
-                <fa icon="check-circle" type="fas" class="classname" width=15></fa> キャンセル
+                <fa icon="ban" type="fas" class="classname" width=15></fa> キャンセル
               </button>
               <button
                 v-show="opportunity.status=='提案中' || opportunity.status=='相談中'"
@@ -62,7 +66,12 @@
           </tr>
           <tr>
             <th>Category</th>
-            <td>{{opportunity.category_name}}</td>
+            <td>
+              {{opportunity.category_name}}<br>
+              <span v-for="sc in opportunity.sub_categories" :key="sc" class="badge badge-pill badge-dark">
+                {{sc.name}}
+              </span>
+            </td>
           </tr>
           <tr>
             <th>Val</th>
@@ -104,13 +113,19 @@
             <th>Date Payment</th>
             <td>{{opportunity.date_payment}}</td>
           </tr>
+          <tr v-if="sum_working_time>0">
+            <th>UnitVal</th>
+            <td>
+              {{numberFormat(Math.round(opportunity.val/sum_working_time))}}/h
+            </td>
+          </tr>
           <tr>
             <th>Working Time</th>
             <td v-if="sum_working_time==0">
               - h  
             </td>
             <td v-else>
-              {{sum_working_time}} h  
+              {{Math.round(sum_working_time*10)/10}} h
             </td>
           </tr>
           <tr>
@@ -342,9 +357,13 @@ export default class OpportunityDetail extends Vue {
         scrollTo(0,0)
       })
       .catch(e => {
-        this.$store.commit("setMessageError", `Failed to update status! ${e.response.data.detail}`)
-        scrollTo(0,0)
-        // window.alert(e.response.data.detail)
+        if (e.response.status == 401){
+          this.$store.commit("setMessageError", "Not authorized")
+          this.$router.push({name: 'Login'})
+        } else {
+          this.$store.commit("setMessageError", `Failed to update status! ${e.response.data.detail}`)
+          scrollTo(0,0)
+        }
       })
     }
   }

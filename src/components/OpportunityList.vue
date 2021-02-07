@@ -21,11 +21,11 @@
           <th>ID</th>
           <th>Date Open</th>
           <th>Date Close</th>
-          <th>Name</th>
           <th>Status</th>
+          <th>Name</th>
           <!-- <th>Type</th> -->
           <!-- <th>Category</th> -->
-          <!-- <th>Client</th> -->
+          <th>WorkingTime</th>
           <th>Value</th>
           <!-- <th>Add</th> -->
         </tr>
@@ -66,15 +66,20 @@
               納期超え
             </label>
           </td>
-          <td>{{opp.name}}</td>
           <td>
             <label :class="label_status(opp.status)">
-            {{opp.status}}
+            {{opp.status}} <span class="badge badge-light badge-pill">{{opp.type}}</span>
+            </label>
+          </td>
+          <td>
+            {{opp.name}}
+            <label class="badge badge-success" v-show="opp.client_name_slack">
+              Slack: <span class="badge badge-light">{{opp.client_name_slack}}</span>
             </label>
           </td>
           <!-- <td>{{opp.type}}</td> -->
           <!-- <td>{{opp.category_name}}</td> -->
-          <!-- <td>{{opp.client_name}}</td> -->
+          <td>{{Math.round(opp.working_time/60*10)/10}} h</td>
           <td>{{numberFormat(opp.val)}}</td>
           <!-- <td>
             <add-opportunity-work :id=opp.id />

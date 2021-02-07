@@ -90,6 +90,7 @@ export default {
         )
         this.$store.commit("removeToken")
         this.$store.commit("removeRefresh")
+        this.$router.push({name: 'Login'})
       })
     },
     logout () {
