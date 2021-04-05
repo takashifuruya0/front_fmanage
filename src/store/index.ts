@@ -7,6 +7,10 @@ export default createStore({
     isAuthenticated: false,
     jwt: localStorage.getItem('token'),
     refresh: localStorage.getItem('refresh'),
+    list_filter: {
+      status: null,
+      order_by: null,
+    },
     msgs_success: null,
     msgs_info: null,
     msgs_warning: null,
@@ -53,10 +57,18 @@ export default createStore({
       state.msgs_error = msg
       scrollTo(0, 0)
     },
+    setListFilter(state, lf) {
+      state.list_filter = lf
+    }
   },
   actions: {
   },
   modules: {
+  },
+  getters: {
+    getListFilter(state) {
+      return state.list_filter
+    }
   },
   plugins: [
     createPersistedState(),

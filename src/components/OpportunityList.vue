@@ -1,7 +1,7 @@
 <template>
   <div class="opportunity-list">
     <h3>{{msg}}</h3>
-    <p>(status, count) = ({{get_status()}}, {{count}})</p>
+    <p>(status, order_by, count) = ({{get_status()}}, {{order_by}}, {{count}})</p>
     <a class="btn btn-sm btn-success" v-on:click="move(previous)" v-if="previous!=null">Previous</a>
     <a class="btn btn-sm btn-primary" :href="current">API</a>
     <a class="btn btn-sm btn-success" v-on:click="move(next)" v-if="next!=null">Next</a>
@@ -19,14 +19,14 @@
       <thead class="thead-light">
         <tr>
           <th>ID</th>
-          <th>Date Open</th>
-          <th>Date Close</th>
-          <th>Status</th>
-          <th>Name</th>
+          <th v-on:click="set_order_by('-date_open')">Date Open</th>
+          <th v-on:click="set_order_by('-date_close')">Date Close</th>
+          <th v-on:click="set_order_by('-status')">Status</th>
+          <th v-on:click="set_order_by('-name')">Name</th>
           <!-- <th>Type</th> -->
           <!-- <th>Category</th> -->
           <th>WorkingTime</th>
-          <th>Value</th>
+          <th v-on:click="set_order_by('-val')">Value</th>
           <!-- <th>Add</th> -->
         </tr>
       </thead>
@@ -116,6 +116,7 @@ export default class OpportunityList extends Vue {
   offset?: number
   status?: string;
   count?: number;
+  order_by?: string | null;
 
   base_url = "https://www.fk-management.com"
   opportunities = []
@@ -130,7 +131,9 @@ export default class OpportunityList extends Vue {
     this.current = new URL(
       `${this.base_url}/drm/lancers/opportunity/?limit=20&offset=${this.offset}`
     )
-    this.move(this.current)  
+    this.status = this['$store'].getters.getListFilter.status
+    this.order_by = this['$store'].getters.getListFilter.order_by
+    this.filter_status(this.status)
   }
 
   numberFormat = (value: number)  => {
@@ -141,13 +144,31 @@ export default class OpportunityList extends Vue {
     window.alert(this.next)
   }
 
+  set_order_by(val: string) {
+    if (this.order_by == val) {
+      this.order_by = null
+    } else {
+      this.order_by = val
+    }
+    this.filter_status(this.status)
+  }
+
   filter_status (status?: string) {
     this.status = status;
+    this['$store'].commit("setListFilter", {
+      status: this.status,
+      order_by: this.order_by
+    });
     if (this.current != null ){
       this.current.searchParams.delete("offset")
       this.current.searchParams.delete("status")      
       if (status != null){
         this.current.searchParams.append("status", status)
+      }
+      if (this.order_by != null){
+        this.current.searchParams.append("order_by", this.order_by)
+      } else {
+        this.current.searchParams.delete("order_by")      
       }
       this.move(this.current)
     } else {
