@@ -296,7 +296,7 @@ export default class OpportunityDetail extends Vue {
     this.sum_working_time = 0;
     this.axios({
       method: "get",
-      url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity_id=${this.$route.params.id}&limit=1000`,
+      url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity=${this.$route.params.id}&limit=1000`,
       headers: {
         'Content-Type': 'application/json'
       }
