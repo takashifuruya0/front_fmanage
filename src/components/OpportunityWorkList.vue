@@ -2,11 +2,12 @@
   <div>
     <h3>
       {{msg}}
+      <span class="badge badge-primary badge-sm">
+      {{getStringFromDate(today)}}: 
+      <span class="badge badge-light badge-pill">{{total}} min</span>
+    </span>
     </h3>
-    <h4 class="badge badge-success badge-sm">
-        {{getStringFromDate(today)}}: 
-        <span class="badge badge-light badge-pill">{{total}} min</span>
-      </h4>
+    
     <table class="table table-responsive-sm">
       <thead class="thead-light">
         <tr>
@@ -29,7 +30,10 @@
               {{ow.id}}
             </a>
           </td>
-          <td>{{convert_datetime_format(ow.datetime_start)}}</td>
+          <td>
+            {{convert_datetime_format(ow.datetime_start)}}
+            <span v-if="is_today(ow.datetime_start)" class="badge badge-primary">TODAY</span>
+          </td>
           <td>{{convert_datetime_format(ow.datetime_end)}}</td>
           <td>{{ow.working_time}}</td>
           <td>
@@ -154,6 +158,12 @@ export default class OpportunityList extends Vue {
   convert_datetime_format(val:string){
     // 2021-04-18T15:15:00+09:00	
     return val.substr(0, 10) + " " + val.substr(11, 5)
+  }
+
+  is_today(val:string){
+    let date_str = this.convert_datetime_format(val).slice(0,10)
+    return date_str == this.getStringFromDate(this.today)
+
   }
   
   getStringFromDate(date: Date) {
