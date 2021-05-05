@@ -1,14 +1,11 @@
 <template>
   <div class="home">
-    <!-- <img alt="Menta logo" src="@/assets/menta.png"> -->
-    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
-    <div class="dataportal" v-if="this.$store.state.isAuthenticated == true">
+    <!-- <div class="dataportal" v-if="this.$store.state.isAuthenticated == true">
       <iframe 
         width="600" height="450" 
         src="https://datastudio.google.com/embed/reporting/c5957cf8-0c3c-47a5-9b16-f1ac4eef391d/page/Qu92B" frameborder="0" style="border:0" allowfullscreen></iframe>
     </div>
-    <hr>
+    <hr> -->
     <opportunity-work-list msg="OpportunityWork List"/>
     <hr>
     <!-- <HelloWorld msg="Again"/> -->

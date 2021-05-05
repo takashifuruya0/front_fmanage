@@ -19,12 +19,10 @@
       <thead class="thead-light">
         <tr>
           <th>ID</th>
+          <th v-on:click="set_order_by('-name')">Name</th>
+          <th v-on:click="set_order_by('-status')">Status</th>
           <th v-on:click="set_order_by('-date_open')">Date Open</th>
           <th v-on:click="set_order_by('-date_close')">Date Close</th>
-          <th v-on:click="set_order_by('-status')">Status</th>
-          <th v-on:click="set_order_by('-name')">Name</th>
-          <!-- <th>Type</th> -->
-          <!-- <th>Category</th> -->
           <th>WorkingTime</th>
           <th v-on:click="set_order_by('-val')">Value</th>
           <!-- <th>Add</th> -->
@@ -41,6 +39,17 @@
               tag="button" class="btn btn-sm btn-primary">
               {{opp.id}}
             </router-link>
+          </td>
+          <td>
+            {{opp.name}}
+            <label class="badge badge-success" v-show="opp.client_name_slack">
+              Slack: <span class="badge badge-light">{{opp.client_name_slack}}</span>
+            </label>
+          </td>
+          <td>
+            <label :class="label_status(opp.status)">
+            {{opp.status}} <span class="badge badge-light badge-pill">{{opp.type}}</span>
+            </label>
           </td>
           <td>
             {{opp.date_open}}
@@ -66,19 +75,6 @@
               納期超え
             </label>
           </td>
-          <td>
-            <label :class="label_status(opp.status)">
-            {{opp.status}} <span class="badge badge-light badge-pill">{{opp.type}}</span>
-            </label>
-          </td>
-          <td>
-            {{opp.name}}
-            <label class="badge badge-success" v-show="opp.client_name_slack">
-              Slack: <span class="badge badge-light">{{opp.client_name_slack}}</span>
-            </label>
-          </td>
-          <!-- <td>{{opp.type}}</td> -->
-          <!-- <td>{{opp.category_name}}</td> -->
           <td>{{Math.round(opp.working_time/60*10)/10}} h</td>
           <td>{{numberFormat(opp.val)}}</td>
           <!-- <td>
