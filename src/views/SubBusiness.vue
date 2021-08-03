@@ -1,8 +1,5 @@
 <template>
   <div class="sub-busines">
-    <!-- <my-nav-bar/> -->
-    
-    
     <opportunity-list msg="Opportunity List"/>
   </div>
 </template>
