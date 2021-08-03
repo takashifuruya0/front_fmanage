@@ -1,45 +1,49 @@
 <template lang="html">
-  <div>
-    <form class="form">
-      <h3>Login Form</h3>
-      <div class="form-group">
-        <label for="id_username">Username: </label>
-        <input
-          class="form-control"
-          v-model="username"
-          type="text"
-          placeholder="Username"
-          autofocus="autofocus"
-          id="id_username">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-10 col-sm-8 col-md-6">
+        <form class="form">
+          <h3>Login Form</h3>
+          <div class="form-group">
+            <label for="id_username">Username: </label>
+            <input
+              class="form-control"
+              v-model="username"
+              type="text"
+              placeholder="Username"
+              autofocus="autofocus"
+              id="id_username">
+          </div>
+          <div class="form-group">
+            <label for="id_password">Password: </label>
+            <input
+              class="form-control"
+              v-model="password"
+              type="password"
+              placeholder="Password"
+              id="id_password">
+          </div>
+          <button
+            @click.prevent="logout"
+            class="btn btn-secondary"
+            type="submit">
+            Log Out
+          </button>
+          <button
+            @click.prevent="refresh"
+            class="btn btn-info"
+            type="submit">
+            Refresh
+          </button>
+          <button
+            @click.prevent="authenticate"
+            class="btn btn-primary"
+            type="submit">
+            Log In
+          </button>
+        </form>
       </div>
-      <div class="form-group">
-        <label for="id_password">Password: </label>
-        <input
-          class="form-control"
-          v-model="password"
-          type="password"
-          placeholder="Password"
-          id="id_password">
-      </div>
-      <button
-        @click.prevent="logout"
-        class="btn btn-secondary"
-        type="submit">
-        Log Out
-      </button>
-      <button
-        @click.prevent="refresh"
-        class="btn btn-info"
-        type="submit">
-        Refresh
-      </button>
-      <button
-        @click.prevent="authenticate"
-        class="btn btn-primary"
-        type="submit">
-        Log In
-      </button>
-    </form>
+    </div>
   </div>
 </template>
 
