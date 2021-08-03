@@ -19,12 +19,42 @@
       <thead class="thead-light">
         <tr>
           <th>ID</th>
-          <th v-on:click="set_order_by('-name')">Name</th>
-          <th v-on:click="set_order_by('-status')">Status</th>
-          <th v-on:click="set_order_by('-date_open')">Date Open</th>
-          <th v-on:click="set_order_by('-date_close')">Date Close</th>
+          <th v-on:click="set_order_by('name')">
+            Name
+            <fa v-if="order_by=='-name'"
+            icon="sort-alpha-up-alt" type="fas" class="sort-alpha-up-alt" width=15></fa>
+            <fa v-if="order_by=='name'"
+            icon="sort-alpha-down" type="fas" class="sort-alpha-down" width=15></fa>
+          </th>
+          <th v-on:click="set_order_by('status')">
+            Status
+            <fa v-if="order_by=='-status'"
+            icon="sort-alpha-up-alt" type="fas" class="sort-alpha-up" width=15></fa>
+            <fa v-if="order_by=='status'"
+            icon="sort-alpha-down" type="fas" class="sort-alpha-down" width=15></fa>
+          </th>
+          <th v-on:click="set_order_by('date_open')">
+            Date Open
+            <fa v-if="order_by=='-date_open'"
+            icon="sort-alpha-up-alt" type="fas" class="sort-alpha-up-alt" width=15></fa>
+            <fa v-if="order_by=='date_open'"
+            icon="sort-alpha-down" type="fas" class="sort-alpha-down" width=15></fa>
+          </th>
+          <th v-on:click="set_order_by('date_close')">
+            Date Close
+            <fa v-if="order_by=='-date_close'"
+            icon="sort-alpha-up-alt" type="fas" class="sort-alpha-up-alt" width=15></fa>
+            <fa v-if="order_by=='date_close'"
+            icon="sort-alpha-down" type="fas" class="sort-alpha-down" width=15></fa>
+          </th>
           <th>WorkingTime</th>
-          <th v-on:click="set_order_by('-val')">Value</th>
+          <th v-on:click="set_order_by('val')">
+            Value
+            <fa v-if="order_by=='-val'"
+            icon="sort-alpha-up-alt" type="fas" class="sort-alpha-up-alt" width=15></fa>
+            <fa v-if="order_by=='val'"
+            icon="sort-alpha-down" type="fas" class="sort-alpha-down" width=15></fa>
+          </th>
           <!-- <th>Add</th> -->
         </tr>
       </thead>
@@ -142,6 +172,8 @@ export default class OpportunityList extends Vue {
 
   set_order_by(val: string) {
     if (this.order_by == val) {
+      this.order_by = "-" + val
+    } else if (this.order_by == "-"+val) {
       this.order_by = null
     } else {
       this.order_by = val
