@@ -125,7 +125,8 @@
               - h  
             </td>
             <td v-else>
-              {{Math.round(sum_working_time*10)/10}} h
+              {{Math.round(sum_working_time*10)/10}} h in total
+              / {{sum_working_time_today*60}} min today
             </td>
           </tr>
           <tr>
@@ -219,6 +220,8 @@ export default class OpportunityDetail extends Vue {
   };
   base_url = "https://www.fk-management.com"
   sum_working_time: number = 0;
+  sum_working_time_today: number = 0;
+  today: Date = new Date()
   is_hidden_ow_list: boolean = true;
 
   OppotunityWork!: {
@@ -228,6 +231,19 @@ export default class OpportunityDetail extends Vue {
     working_time: Number;
   };
   opportunity_works = [];
+
+  getStringFromDate(date: Date) {
+    var year_str = String(date.getFullYear())
+    var month_str = String(1 + date.getMonth());
+    var day_str = String(date.getDate());
+    var format_str = 'YYYY-MM-DD';
+    month_str = ('0' + month_str).slice(-2);
+    day_str = ('0' + day_str).slice(-2);
+    format_str = format_str.replace(/YYYY/g, year_str);
+    format_str = format_str.replace(/MM/g, month_str);
+    format_str = format_str.replace(/DD/g, day_str);
+    return format_str;
+  }
 
   
   numberFormat = (value: number)  => {
@@ -294,6 +310,7 @@ export default class OpportunityDetail extends Vue {
     // Opportunity Worki List
     let ow_list: any[] = [];
     this.sum_working_time = 0;
+    this.sum_working_time_today = 0;
     this.axios({
       method: "get",
       url: `${this.base_url}/drm/lancers/opportunitywork/?opportunity=${this.$route.params.id}&limit=1000`,
@@ -304,8 +321,18 @@ export default class OpportunityDetail extends Vue {
     .then(response => {
       for (const ow in response.data.results) {
         this.sum_working_time += response.data.results[ow].working_time
+        try {
+          let val = response.data.results[ow].datetime_start
+          let date_str = (val.substr(0, 10) + " " + val.substr(11, 5)).slice(0,10)
+          if (date_str == this.getStringFromDate(this.today)){
+            this.sum_working_time_today += response.data.results[ow].working_time
+          }
+        }catch(e){
+          window.alert(e)
+        }
       }
       this.sum_working_time = this.sum_working_time/60
+      this.sum_working_time_today = this.sum_working_time_today/60
       this.opportunity_works = response.data.results
     })
     .catch(e => {
