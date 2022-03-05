@@ -53,7 +53,7 @@ export default {
         refresh: this.$store.state.refresh,
       }
       axios.post(
-        "https://www.fk-management.com/auth/jwt/refresh/",
+        "https://meta.fk-management.com/auth/jwt/refresh/",
         payload
       )
       .then((response) => {
@@ -71,7 +71,7 @@ export default {
         }
         const axiosInstance = axios.create(base)
         axiosInstance({
-          url: "https://www.fk-management.com/auth/user-detail/",
+          url: "https://meta.fk-management.com/auth/user-detail/",
           method: "get",
           params: {}
         })
