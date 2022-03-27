@@ -102,7 +102,7 @@ export default class OpportunityList extends Vue {
   order_by?: string | null;
   total: number = 0;
   opportunityworks: opportunitywork[] = []
-  base_url: string = "https://meta.fk-management.com"
+  base_url: string = "https://www.fk-management.com"
   status_list: string[] = ["相談中", "提案中", "選定/作業中", "選定/終了", "キャンセル", "落選"]
   today: Date = new Date()
   

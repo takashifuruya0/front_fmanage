@@ -64,7 +64,7 @@ export default {
         password: this.password
       }
       axios.post(
-        "https://meta.fk-management.com/auth/jwt/create/",
+        "https://www.fk-management.com/auth/jwt/create/",
         payload
       )
       .then((response) => {
@@ -87,7 +87,7 @@ export default {
         // JWT and can plug in something else.
         const axiosInstance = axios.create(base)
         axiosInstance({
-          url: "https://meta.fk-management.com/auth/user-detail/",
+          url: "https://www.fk-management.com/auth/user-detail/",
           method: "get",
           params: {}
         })
@@ -108,7 +108,7 @@ export default {
         refresh: this.$store.state.refresh,
       }
       axios.post(
-        "https://meta.fk-management.com/auth/jwt/refresh/",
+        "https://www.fk-management.com/auth/jwt/refresh/",
         payload
       )
       .then((response) => {
@@ -126,7 +126,7 @@ export default {
         }
         const axiosInstance = axios.create(base)
         axiosInstance({
-          url: "https://meta.fk-management.com/auth/user-detail/",
+          url: "https://www.fk-management.com/auth/user-detail/",
           method: "get",
           params: {}
         })
