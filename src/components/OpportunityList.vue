@@ -144,7 +144,7 @@ export default class OpportunityList extends Vue {
   count?: number;
   order_by?: string | null;
 
-  base_url = "https://meta.fk-management.com"
+  base_url = "https://www.fk-management.com"
   opportunities = []
   status_list = ["相談中", "提案中", "選定/作業中", "選定/終了", "キャンセル", "落選"]
   
