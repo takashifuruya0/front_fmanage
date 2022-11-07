@@ -218,7 +218,7 @@ export default class OpportunityDetail extends Vue {
     type: null,
     id: null,
   };
-  base_url = "https://www.fk-management.com"
+  base_url = "https://legacy.fk-management.com"
   sum_working_time: number = 0;
   sum_working_time_today: number = 0;
   today: Date = new Date()

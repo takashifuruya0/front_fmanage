@@ -63,7 +63,7 @@ export default {
       // if(window.confirm(`${payload.datetime_start}~${payload.datetime_end} : ${ds}~${de} ${payload.working_time}`)){return}
       axios({
         method: "post",
-        url: "https://www.fk-management.com/drm/lancers/opportunitywork/",
+        url: "https://legacy.fk-management.com/drm/lancers/opportunitywork/",
         headers: {
           'Content-Type': 'application/json',
           Authorization: `JWT ${this.$store.state.jwt}`,
